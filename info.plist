@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>space.shino.changenetworkproxysettings</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>1FCF6CDA-2FED-4FD5-823D-557A59E87938</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>57CD4D15-AC9E-4574-9097-F003066296D0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>38D59E73-7283-4B82-BC79-7ECFADEE1D29</key>
+		<array/>
+		<key>BA386325-89BF-41B8-9F7E-B458BE3F90A6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F7B80F8C-3279-47C4-BA05-C204436725B7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>CEC43A5A-24C5-4975-B81A-078832AA1A58</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F3D24D9E-EB6B-4295-B5BD-91E8C2C499FA</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>D3E0E934-88B0-4DB5-953C-F7BB4187FD30</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>7919BA66-FEE0-49FD-8A01-6C8FA67BC90E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>F3D24D9E-EB6B-4295-B5BD-91E8C2C499FA</key>
+		<array/>
+	</dict>
+	<key>createdby</key>
+	<string>shino</string>
+	<key>description</key>
+	<string>Change the auto proxy or the socks5 proxy</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>ChangeNetworkProxySettings</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>pacon</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>打开PAC代理</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>CEC43A5A-24C5-4975-B81A-078832AA1A58</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
+#PAC文件路径改为自己设置的路径
+networksetup -setautoproxyurl Wi-Fi http://127.0.0.1:80/whitelist.pac</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>F3D24D9E-EB6B-4295-B5BD-91E8C2C499FA</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>pacoff</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>关闭PAC代理</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>D3E0E934-88B0-4DB5-953C-F7BB4187FD30</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
+networksetup -setautoproxystate Wi-Fi off</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>7919BA66-FEE0-49FD-8A01-6C8FA67BC90E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>sockson</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>打开SOCKS5代理</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>1FCF6CDA-2FED-4FD5-823D-557A59E87938</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
+#SOCKS5端口改为自己设置的IP和端口
+networksetup -setsocksfirewallproxy Wi-Fi localhost 1080 off</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>57CD4D15-AC9E-4574-9097-F003066296D0</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>socksoff</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>关闭SOCKS5代理</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>BA386325-89BF-41B8-9F7E-B458BE3F90A6</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
+networksetup -setsocksfirewallproxystate Wi-Fi off</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>F7B80F8C-3279-47C4-BA05-C204436725B7</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>listproxy</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>正在检查</string>
+				<key>script</key>
+				<string>#/bin/bash
+
+#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
+pacStatus=$(networksetup -getautoproxyurl Wi-Fi | sed -n '2p')
+socksStatus=$(networksetup -getsocksfirewallproxy Wi-Fi | sed -n '1p')
+
+if [ "$pacStatus" = "Enabled: Yes" ]
+then
+pacStatus="ON"
+else
+pacStatus="OFF"
+fi
+
+if [ "$socksStatus" = "Enabled: Yes" ]
+then
+socksStatus="ON"
+else
+socksStatus="OFF"
+fi
+
+cat &lt;&lt; EOB
+{"items": [
+    {
+        "uid": "PAC代理",
+        "title": "${pacStatus}",
+        "subtitle":"PAC代理",
+        "icon": {
+            "path": "icon.png"
+        }
+    },
+    
+    {
+        "uid": "SOCKS5代理",
+        "title": "${socksStatus}",
+        "subtitle":"SOCKS5代理",
+        "icon": {
+            "path": "icon.png"
+        }
+    }
+]}
+EOB</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>显示当前使用的代理类型</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>38D59E73-7283-4B82-BC79-7ECFADEE1D29</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>1FCF6CDA-2FED-4FD5-823D-557A59E87938</key>
+		<dict>
+			<key>xpos</key>
+			<integer>180</integer>
+			<key>ypos</key>
+			<integer>280</integer>
+		</dict>
+		<key>38D59E73-7283-4B82-BC79-7ECFADEE1D29</key>
+		<dict>
+			<key>xpos</key>
+			<integer>180</integer>
+			<key>ypos</key>
+			<integer>500</integer>
+		</dict>
+		<key>57CD4D15-AC9E-4574-9097-F003066296D0</key>
+		<dict>
+			<key>xpos</key>
+			<integer>490</integer>
+			<key>ypos</key>
+			<integer>280</integer>
+		</dict>
+		<key>7919BA66-FEE0-49FD-8A01-6C8FA67BC90E</key>
+		<dict>
+			<key>xpos</key>
+			<integer>490</integer>
+			<key>ypos</key>
+			<integer>170</integer>
+		</dict>
+		<key>BA386325-89BF-41B8-9F7E-B458BE3F90A6</key>
+		<dict>
+			<key>xpos</key>
+			<integer>180</integer>
+			<key>ypos</key>
+			<integer>390</integer>
+		</dict>
+		<key>CEC43A5A-24C5-4975-B81A-078832AA1A58</key>
+		<dict>
+			<key>xpos</key>
+			<integer>180</integer>
+			<key>ypos</key>
+			<integer>60</integer>
+		</dict>
+		<key>D3E0E934-88B0-4DB5-953C-F7BB4187FD30</key>
+		<dict>
+			<key>xpos</key>
+			<integer>180</integer>
+			<key>ypos</key>
+			<integer>170</integer>
+		</dict>
+		<key>F3D24D9E-EB6B-4295-B5BD-91E8C2C499FA</key>
+		<dict>
+			<key>xpos</key>
+			<integer>490</integer>
+			<key>ypos</key>
+			<integer>60</integer>
+		</dict>
+		<key>F7B80F8C-3279-47C4-BA05-C204436725B7</key>
+		<dict>
+			<key>xpos</key>
+			<integer>490</integer>
+			<key>ypos</key>
+			<integer>390</integer>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>https://shino.space</string>
+</dict>
+</plist>
