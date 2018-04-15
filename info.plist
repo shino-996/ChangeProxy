@@ -4,8 +4,6 @@
 <dict>
 	<key>bundleid</key>
 	<string>space.shino.changenetworkproxysettings</string>
-	<key>category</key>
-	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>1FCF6CDA-2FED-4FD5-823D-557A59E87938</key>
@@ -262,6 +260,10 @@ networksetup -setsocksfirewallproxystate Wi-Fi off</string>
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>2</integer>
 				<key>escaping</key>
@@ -284,6 +286,7 @@ networksetup -setsocksfirewallproxystate Wi-Fi off</string>
 #将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
 pacStatus=$(networksetup -getautoproxyurl Wi-Fi | sed -n '2p')
 socksStatus=$(networksetup -getsocksfirewallproxy Wi-Fi | sed -n '1p')
+wifiName=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')
 
 if [ "$pacStatus" = "Enabled: Yes" ]
 then
@@ -301,6 +304,14 @@ fi
 
 cat &lt;&lt; EOB
 {"items": [
+    {
+        "uid": "当前Wi-Fi",
+        "title": "${wifiName}",
+        "subtitle": "当前Wi-Fi",
+        "icon": {
+            "path": "icon.png"
+        }
+    },
     {
         "uid": "PAC代理",
         "title": "${pacStatus}",
@@ -340,6 +351,198 @@ EOB</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>pac</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>正在检查</string>
+				<key>script</key>
+				<string>#/bin/bash
+
+#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
+pacStatus=$(networksetup -getautoproxyurl Wi-Fi | sed -n '2p')
+socksStatus=$(networksetup -getsocksfirewallproxy Wi-Fi | sed -n '1p')
+wifiName=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')
+
+if [ "$pacStatus" = "Enabled: Yes" ]
+then
+pacStatus="ON"
+else
+pacStatus="OFF"
+fi
+
+if [ "$socksStatus" = "Enabled: Yes" ]
+then
+socksStatus="ON"
+else
+socksStatus="OFF"
+fi
+
+cat &lt;&lt; EOB
+{"items": [
+    {
+        "uid": "当前Wi-Fi",
+        "title": "${wifiName}",
+        "subtitle": "当前Wi-Fi",
+        "icon": {
+            "path": "icon.png"
+        }
+    },
+    {
+        "uid": "PAC代理",
+        "title": "${pacStatus}",
+        "subtitle":"PAC代理",
+        "icon": {
+            "path": "icon.png"
+        }
+    },
+    
+    {
+        "uid": "SOCKS5代理",
+        "title": "${socksStatus}",
+        "subtitle":"SOCKS5代理",
+        "icon": {
+            "path": "icon.png"
+        }
+    }
+]}
+EOB</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>显示当前使用的代理类型</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>36981DBB-3642-4D7E-A06B-0B9A536CEEAC</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>socks</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>正在检查</string>
+				<key>script</key>
+				<string>#/bin/bash
+
+#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
+pacStatus=$(networksetup -getautoproxyurl Wi-Fi | sed -n '2p')
+socksStatus=$(networksetup -getsocksfirewallproxy Wi-Fi | sed -n '1p')
+wifiName=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')
+
+if [ "$pacStatus" = "Enabled: Yes" ]
+then
+pacStatus="ON"
+else
+pacStatus="OFF"
+fi
+
+if [ "$socksStatus" = "Enabled: Yes" ]
+then
+socksStatus="ON"
+else
+socksStatus="OFF"
+fi
+
+cat &lt;&lt; EOB
+{"items": [
+    {
+        "uid": "当前Wi-Fi",
+        "title": "${wifiName}",
+        "subtitle": "当前Wi-Fi",
+        "icon": {
+            "path": "icon.png"
+        }
+    },
+    {
+        "uid": "PAC代理",
+        "title": "${pacStatus}",
+        "subtitle":"PAC代理",
+        "icon": {
+            "path": "icon.png"
+        }
+    },
+    
+    {
+        "uid": "SOCKS5代理",
+        "title": "${socksStatus}",
+        "subtitle":"SOCKS5代理",
+        "icon": {
+            "path": "icon.png"
+        }
+    }
+]}
+EOB</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>显示当前使用的代理类型</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>5E04FC96-19B7-4782-8094-7387A467DE61</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
@@ -351,6 +554,13 @@ EOB</string>
 			<integer>180</integer>
 			<key>ypos</key>
 			<integer>280</integer>
+		</dict>
+		<key>36981DBB-3642-4D7E-A06B-0B9A536CEEAC</key>
+		<dict>
+			<key>xpos</key>
+			<integer>340</integer>
+			<key>ypos</key>
+			<integer>500</integer>
 		</dict>
 		<key>38D59E73-7283-4B82-BC79-7ECFADEE1D29</key>
 		<dict>
@@ -365,6 +575,13 @@ EOB</string>
 			<integer>490</integer>
 			<key>ypos</key>
 			<integer>280</integer>
+		</dict>
+		<key>5E04FC96-19B7-4782-8094-7387A467DE61</key>
+		<dict>
+			<key>xpos</key>
+			<integer>490</integer>
+			<key>ypos</key>
+			<integer>500</integer>
 		</dict>
 		<key>7919BA66-FEE0-49FD-8A01-6C8FA67BC90E</key>
 		<dict>
