@@ -21,6 +21,19 @@
 		</array>
 		<key>38D59E73-7283-4B82-BC79-7ECFADEE1D29</key>
 		<array/>
+		<key>57CD4D15-AC9E-4574-9097-F003066296D0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>7919BA66-FEE0-49FD-8A01-6C8FA67BC90E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>BA386325-89BF-41B8-9F7E-B458BE3F90A6</key>
 		<array>
 			<dict>
@@ -61,6 +74,19 @@
 			</dict>
 		</array>
 		<key>F3D24D9E-EB6B-4295-B5BD-91E8C2C499FA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F7B80F8C-3279-47C4-BA05-C204436725B7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>F7B80F8C-3279-47C4-BA05-C204436725B7</key>
 		<array/>
 	</dict>
 	<key>createdby</key>
@@ -104,7 +130,7 @@
 				<key>script</key>
 				<string>#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
 #PAC文件路径改为自己设置的路径
-networksetup -setautoproxyurl Wi-Fi http://127.0.0.1:80/whitelist.pac</string>
+networksetup -setautoproxyurl Wi-Fi http://127.0.0.1:8088/whitelist.pac</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -572,7 +598,7 @@ EOB</string>
 		<key>57CD4D15-AC9E-4574-9097-F003066296D0</key>
 		<dict>
 			<key>xpos</key>
-			<integer>490</integer>
+			<integer>340</integer>
 			<key>ypos</key>
 			<integer>280</integer>
 		</dict>
@@ -621,7 +647,7 @@ EOB</string>
 		<key>F7B80F8C-3279-47C4-BA05-C204436725B7</key>
 		<dict>
 			<key>xpos</key>
-			<integer>490</integer>
+			<integer>650</integer>
 			<key>ypos</key>
 			<integer>390</integer>
 		</dict>
