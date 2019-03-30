@@ -128,9 +128,16 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
-#PAC文件路径改为自己设置的路径
-networksetup -setautoproxyurl Wi-Fi http://127.0.0.1:8088/whitelist.pac</string>
+				<string>#PAC文件路径改为自己设置的路径
+
+netstat -f inet -nr | awk '/^default/{print $NF}' | while read interface
+do
+    networksetup -listnetworkserviceorder | grep ${interface} | while read serviceString
+    do
+        service=`echo ${serviceString#*(Hardware Port: } | awk '{split($0, services, ","); print services[1]}'`
+        networksetup -setautoproxyurl "${service}" http://127.0.0.1:8088/whitelist.pac
+   done
+done</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -174,8 +181,14 @@ networksetup -setautoproxyurl Wi-Fi http://127.0.0.1:8088/whitelist.pac</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
-networksetup -setautoproxystate Wi-Fi off</string>
+				<string>netstat -f inet -nr | awk '/^default/{print $NF}' | while read interface
+do
+    networksetup -listnetworkserviceorder | grep ${interface} | while read serviceString
+    do
+        service=`echo ${serviceString#*(Hardware Port: } | awk '{split($0, services, ","); print services[1]}'`
+        networksetup -setautoproxystate "${service}" off
+   done
+done</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -219,9 +232,16 @@ networksetup -setautoproxystate Wi-Fi off</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
-#SOCKS5端口改为自己设置的IP和端口
-networksetup -setsocksfirewallproxy Wi-Fi localhost 1080 off</string>
+				<string>#SOCKS5端口改为自己设置的IP和端口
+
+netstat -f inet -nr | awk '/^default/{print $NF}' | while read interface
+do
+    networksetup -listnetworkserviceorder | grep ${interface} | while read serviceString
+    do
+        service=`echo ${serviceString#*(Hardware Port: } | awk '{split($0, services, ","); print services[1]}'`
+        networksetup -setsocksfirewallproxy "${service}" localhost 1080 off
+   done
+done</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -265,8 +285,14 @@ networksetup -setsocksfirewallproxy Wi-Fi localhost 1080 off</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
-networksetup -setsocksfirewallproxystate Wi-Fi off</string>
+				<string>netstat -f inet -nr | awk '/^default/{print $NF}' | while read interface
+do
+    networksetup -listnetworkserviceorder | grep ${interface} | while read serviceString
+    do
+        service=`echo ${serviceString#*(Hardware Port: } | awk '{split($0, services, ","); print services[1]}'`
+        networksetup -setsocksfirewallproxystate "${service}" off
+   done
+done</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
