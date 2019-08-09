@@ -129,14 +129,12 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>#PAC文件路径改为自己设置的路径
-
 netstat -f inet -nr | awk '/^default/{print $NF}' | while read interface
 do
-    networksetup -listnetworkserviceorder | grep ${interface} | while read serviceString
+    networksetup -listnetworkserviceorder | grep -B1 ${interface} | grep -v ${interface} | awk '{print $2}' | while read service
     do
-        service=`echo ${serviceString#*(Hardware Port: } | awk '{split($0, services, ","); print services[1]}'`
-        networksetup -setautoproxyurl "${service}" http://127.0.0.1:8088/whitelist.pac
-   done
+        networksetup -setautoproxyurl "${service}" http://127.0.0.1:88/whitelist.pac
+    done
 done</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -183,11 +181,10 @@ done</string>
 				<key>script</key>
 				<string>netstat -f inet -nr | awk '/^default/{print $NF}' | while read interface
 do
-    networksetup -listnetworkserviceorder | grep ${interface} | while read serviceString
+    networksetup -listnetworkserviceorder | grep -B1 ${interface} | grep -v ${interface} | awk '{print $2}' | while read service
     do
-        service=`echo ${serviceString#*(Hardware Port: } | awk '{split($0, services, ","); print services[1]}'`
         networksetup -setautoproxystate "${service}" off
-   done
+    done
 done</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -233,14 +230,12 @@ done</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>#SOCKS5端口改为自己设置的IP和端口
-
 netstat -f inet -nr | awk '/^default/{print $NF}' | while read interface
 do
-    networksetup -listnetworkserviceorder | grep ${interface} | while read serviceString
+    networksetup -listnetworkserviceorder | grep -B1 ${interface} | grep -v ${interface} | awk '{print $2}' | while read service
     do
-        service=`echo ${serviceString#*(Hardware Port: } | awk '{split($0, services, ","); print services[1]}'`
         networksetup -setsocksfirewallproxy "${service}" localhost 1080 off
-   done
+    done
 done</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -287,11 +282,10 @@ done</string>
 				<key>script</key>
 				<string>netstat -f inet -nr | awk '/^default/{print $NF}' | while read interface
 do
-    networksetup -listnetworkserviceorder | grep ${interface} | while read serviceString
+    networksetup -listnetworkserviceorder | grep -B1 ${interface} | grep -v ${interface} | awk '{print $2}' | while read service
     do
-        service=`echo ${serviceString#*(Hardware Port: } | awk '{split($0, services, ","); print services[1]}'`
         networksetup -setsocksfirewallproxystate "${service}" off
-   done
+    done
 done</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -314,6 +308,8 @@ done</string>
 				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -335,9 +331,11 @@ done</string>
 				<key>script</key>
 				<string>#/bin/bash
 
-#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
-pacStatus=$(networksetup -getautoproxyurl Wi-Fi | sed -n '2p')
-socksStatus=$(networksetup -getsocksfirewallproxy Wi-Fi | sed -n '1p')
+#因为所有网络服务代理状态是同时改变的, 查看其中一个服务即可
+interface=$(netstat -f inet -nr | awk '/^default/ { print $NF }' | awk ' NR == 1 { print }')
+service=$(networksetup -listnetworkserviceorder | grep -B1 ${interface} | grep -v ${interface} | awk '{print $2}')
+pacStatus=$(networksetup -getautoproxyurl ${service} | sed -n '2p')
+socksStatus=$(networksetup -getsocksfirewallproxy ${service} | sed -n '1p')
 wifiName=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')
 
 if [ "$pacStatus" = "Enabled: Yes" ]
@@ -355,33 +353,33 @@ socksStatus="OFF"
 fi
 
 cat &lt;&lt; EOB
-{"items": [
+{
+    "items": 
+    [{
+        "uid": "当前网络",
+        "title": "${service}",
+        "subtitle": "当前网络",
+        "icon": { "path": "icon.png" }
+    },
     {
         "uid": "当前Wi-Fi",
         "title": "${wifiName}",
         "subtitle": "当前Wi-Fi",
-        "icon": {
-            "path": "icon.png"
-        }
+        "icon": { "path": "icon.png" }
     },
     {
         "uid": "PAC代理",
         "title": "${pacStatus}",
         "subtitle":"PAC代理",
-        "icon": {
-            "path": "icon.png"
-        }
+        "icon": { "path": "icon.png" }
     },
-    
     {
         "uid": "SOCKS5代理",
         "title": "${socksStatus}",
         "subtitle":"SOCKS5代理",
-        "icon": {
-            "path": "icon.png"
-        }
-    }
-]}
+        "icon": { "path": "icon.png" }
+    }]
+}
 EOB</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -401,7 +399,7 @@ EOB</string>
 			<key>uid</key>
 			<string>38D59E73-7283-4B82-BC79-7ECFADEE1D29</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -410,6 +408,8 @@ EOB</string>
 				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -431,9 +431,11 @@ EOB</string>
 				<key>script</key>
 				<string>#/bin/bash
 
-#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
-pacStatus=$(networksetup -getautoproxyurl Wi-Fi | sed -n '2p')
-socksStatus=$(networksetup -getsocksfirewallproxy Wi-Fi | sed -n '1p')
+#因为所有网络服务代理状态是同时改变的, 查看其中一个服务即可
+interface=$(netstat -f inet -nr | awk '/^default/ { print $NF }' | awk ' NR == 1 { print }')
+service=$(networksetup -listnetworkserviceorder | grep -B1 ${interface} | grep -v ${interface} | awk '{print $2}')
+pacStatus=$(networksetup -getautoproxyurl ${service} | sed -n '2p')
+socksStatus=$(networksetup -getsocksfirewallproxy ${service} | sed -n '1p')
 wifiName=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')
 
 if [ "$pacStatus" = "Enabled: Yes" ]
@@ -451,33 +453,33 @@ socksStatus="OFF"
 fi
 
 cat &lt;&lt; EOB
-{"items": [
+{
+    "items": 
+    [{
+        "uid": "当前网络",
+        "title": "${service}",
+        "subtitle": "当前网络",
+        "icon": { "path": "icon.png" }
+    },
     {
         "uid": "当前Wi-Fi",
         "title": "${wifiName}",
         "subtitle": "当前Wi-Fi",
-        "icon": {
-            "path": "icon.png"
-        }
+        "icon": { "path": "icon.png" }
     },
     {
         "uid": "PAC代理",
         "title": "${pacStatus}",
         "subtitle":"PAC代理",
-        "icon": {
-            "path": "icon.png"
-        }
+        "icon": { "path": "icon.png" }
     },
-    
     {
         "uid": "SOCKS5代理",
         "title": "${socksStatus}",
         "subtitle":"SOCKS5代理",
-        "icon": {
-            "path": "icon.png"
-        }
-    }
-]}
+        "icon": { "path": "icon.png" }
+    }]
+}
 EOB</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -497,7 +499,7 @@ EOB</string>
 			<key>uid</key>
 			<string>36981DBB-3642-4D7E-A06B-0B9A536CEEAC</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -506,6 +508,8 @@ EOB</string>
 				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -527,9 +531,11 @@ EOB</string>
 				<key>script</key>
 				<string>#/bin/bash
 
-#将“Wi-Fi”改为设置-&gt;网络里使用的网络服务名称
-pacStatus=$(networksetup -getautoproxyurl Wi-Fi | sed -n '2p')
-socksStatus=$(networksetup -getsocksfirewallproxy Wi-Fi | sed -n '1p')
+#因为所有网络服务代理状态是同时改变的, 查看其中一个服务即可
+interface=$(netstat -f inet -nr | awk '/^default/ { print $NF }' | awk ' NR == 1 { print }')
+service=$(networksetup -listnetworkserviceorder | grep -B1 ${interface} | grep -v ${interface} | awk '{print $2}')
+pacStatus=$(networksetup -getautoproxyurl ${service} | sed -n '2p')
+socksStatus=$(networksetup -getsocksfirewallproxy ${service} | sed -n '1p')
 wifiName=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')
 
 if [ "$pacStatus" = "Enabled: Yes" ]
@@ -547,33 +553,33 @@ socksStatus="OFF"
 fi
 
 cat &lt;&lt; EOB
-{"items": [
+{
+    "items": 
+    [{
+        "uid": "当前网络",
+        "title": "${service}",
+        "subtitle": "当前网络",
+        "icon": { "path": "icon.png" }
+    },
     {
         "uid": "当前Wi-Fi",
         "title": "${wifiName}",
         "subtitle": "当前Wi-Fi",
-        "icon": {
-            "path": "icon.png"
-        }
+        "icon": { "path": "icon.png" }
     },
     {
         "uid": "PAC代理",
         "title": "${pacStatus}",
         "subtitle":"PAC代理",
-        "icon": {
-            "path": "icon.png"
-        }
+        "icon": { "path": "icon.png" }
     },
-    
     {
         "uid": "SOCKS5代理",
         "title": "${socksStatus}",
         "subtitle":"SOCKS5代理",
-        "icon": {
-            "path": "icon.png"
-        }
-    }
-]}
+        "icon": { "path": "icon.png" }
+    }]
+}
 EOB</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -593,7 +599,7 @@ EOB</string>
 			<key>uid</key>
 			<string>5E04FC96-19B7-4782-8094-7387A467DE61</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 	</array>
 	<key>readme</key>
